@@ -1,0 +1,3 @@
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\x64\Debug\App.g.cs
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\x64\Debug\AutoserviceManagerWorkplace_MarkupCompile.cache
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\x64\Debug\AutoserviceManagerWorkplace.exe.config

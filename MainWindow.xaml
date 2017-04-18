@@ -1,0 +1,129 @@
+﻿<Window x:Class="AutoserviceManagerWorkplace.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:AutoserviceManagerWorkplace"
+        Title="АРМ менеджера автосервиса" Height="540" Width="695">
+    <Window.Resources>
+        <local:ViewModel x:Key="viewModel"/>
+        <local:MultiConverter x:Key="multiConverter"/>
+        <local:SelectionChangedBehaviour x:Key="SelectionChangedBehaviour"/>
+        <BooleanToVisibilityConverter x:Key="visibilityConverter" />
+    </Window.Resources>    
+    <StackPanel Margin="0,0,0,0">
+        <Grid Height="57" Margin="10,10,10,0" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="222*"/>
+                <ColumnDefinition Width="222*"/>
+                <ColumnDefinition Width="180*"/>
+                <ColumnDefinition Width="43*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="sortButton" Content="Сортировка" Margin="10" Grid.Column="0"
+                     Command="{Binding ChangeMode, Source={StaticResource viewModel}}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource multiConverter}">
+                        <Binding ElementName="SortParametersPanel"/>
+                        <Binding ElementName="dataGrid"/>
+                        <Binding Source="Sort"/>
+                        <Binding ElementName="FilterParametersPanel"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+            <Button x:Name="filterButton" Content="Фильтрация" Margin="10" Grid.Column="1"
+            	Command="{Binding ChangeMode, Source={StaticResource viewModel}}">
+                <Button.CommandParameter>
+                    <MultiBinding Converter="{StaticResource multiConverter}">
+                        <Binding ElementName="FilterParametersPanel"/>
+                        <Binding ElementName="dataGrid"/>
+                        <Binding Source="Filter"/>
+                        <Binding ElementName="FilterComboBox"/>
+                        <Binding ElementName="SortParametersPanel"/>
+                    </MultiBinding>
+                </Button.CommandParameter>
+            </Button>
+        </Grid>
+        <Grid x:Name="OperationParametersPanel" Margin="15,0,15,0" VerticalAlignment="Top" Height="58"
+              Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <RadioButton x:Name="sortByBrandButton" Margin="3,3,3,3" Content="По марке" Grid.Row="0" Grid.Column="0" GroupName="ColumnParameter" IsChecked="True"               
+                    Command="{Binding ChangeOperationParameter, Source={StaticResource viewModel}}" VerticalAlignment="Top">
+                    <RadioButton.CommandParameter>
+                        <MultiBinding Converter="{StaticResource multiConverter}">
+                            <Binding ElementName="dataGrid"/>
+                            <Binding Source="Brand"/>
+                            <Binding ElementName="FilterComboBox"/>
+                        </MultiBinding>
+                    </RadioButton.CommandParameter>
+                </RadioButton>
+                <RadioButton x:Name="sortByYaerButton" Margin="3,3,3,3" Content="По году" Grid.Row="0" GroupName="ColumnParameter"
+                    Command="{Binding ChangeOperationParameter, Source={StaticResource viewModel}}" IsChecked="True">
+                    <RadioButton.CommandParameter>
+                        <MultiBinding Converter="{StaticResource multiConverter}">
+                            <Binding ElementName="dataGrid"/>
+                            <Binding Source="Year"/>
+                            <Binding ElementName="FilterComboBox"/>
+                        </MultiBinding>
+                    </RadioButton.CommandParameter>
+                </RadioButton>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <RadioButton x:Name="sortByModelButton" Margin="3,3,3,3" Content="По модели" Grid.Row="0" Grid.Column="1" GroupName="ColumnParameter"
+                        Command="{Binding ChangeOperationParameter, Source={StaticResource viewModel}}">
+                    <RadioButton.CommandParameter>
+                        <MultiBinding Converter="{StaticResource multiConverter}">
+                            <Binding ElementName="dataGrid"/>
+                            <Binding Source="Model"/>
+                            <Binding ElementName="FilterComboBox"/>
+                        </MultiBinding>
+                    </RadioButton.CommandParameter>
+                </RadioButton>
+                <RadioButton x:Name="sortByPowerButton" Margin="3,3,3,3" Content="По мощности" Grid.Row="0" Grid.Column="1" GroupName="ColumnParameter"
+                        Command="{Binding ChangeOperationParameter, Source={StaticResource viewModel}}">
+                    <RadioButton.CommandParameter>
+                        <MultiBinding Converter="{StaticResource multiConverter}">
+                            <Binding ElementName="dataGrid"/>
+                            <Binding Source="EnginePower"/>
+                            <Binding ElementName="FilterComboBox"/>
+                        </MultiBinding>
+                    </RadioButton.CommandParameter>
+                </RadioButton>
+            </StackPanel>
+            <Grid x:Name="SortParametersPanel" Grid.Column="3" Width="0" >
+                <RadioButton x:Name="riseSortButton" Content="По возрастанию" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"
+                             IsChecked="True" GroupName="SortFlowParameter"
+                             Command="{Binding ChangeSortFlow, Source={StaticResource viewModel}}">
+                    <RadioButton.CommandParameter>
+                        <MultiBinding Converter="{StaticResource multiConverter}">
+                            <Binding ElementName="dataGrid"/>
+                            <Binding Source="True"/>
+                        </MultiBinding>
+                    </RadioButton.CommandParameter>
+                </RadioButton>
+                <RadioButton x:Name="decreaseSortButton" Content="По убыванию" HorizontalAlignment="Left" Margin="10,31,0,0" VerticalAlignment="Top"
+                             GroupName="SortFlowParameter"
+                             Command="{Binding ChangeSortFlow, Source={StaticResource viewModel}}">
+                    <RadioButton.CommandParameter>
+                        <MultiBinding Converter="{StaticResource multiConverter}">
+                            <Binding ElementName="dataGrid"/>
+                            <Binding Source="False"/>
+                        </MultiBinding>
+                    </RadioButton.CommandParameter>
+                </RadioButton>
+            </Grid>
+            <Grid x:Name="FilterParametersPanel" Grid.Column="3">
+                <ComboBox x:Name="FilterComboBox" Margin="10,10,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" SelectionChanged="FilterComboBox_SelectionChanged"/>
+            </Grid>
+        </Grid>
+        <StackPanel Margin="15,0,15,15" Orientation="Vertical">
+            <DataGrid x:Name="dataGrid" Margin="10" Height="306" />
+        </StackPanel>
+    </StackPanel>
+</Window>
