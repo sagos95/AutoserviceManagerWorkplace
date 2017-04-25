@@ -1,0 +1,225 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище AMWDataBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CarModels">
+          <Key>
+            <PropertyRef Name="CarId" />
+          </Key>
+          <Property Name="CarId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Brand" Type="nvarchar(max)" />
+          <Property Name="Model" Type="nvarchar(max)" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="AutomaticTransmission" Type="bit" Nullable="false" />
+          <Property Name="EnginePower" Type="int" Nullable="false" />
+          <Property Name="CarOwner_CarOwnerId" Type="int" />
+        </EntityType>
+        <EntityType Name="CarOwnerModels">
+          <Key>
+            <PropertyRef Name="CarOwnerId" />
+          </Key>
+          <Property Name="CarOwnerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Surname" Type="nvarchar(max)" />
+          <Property Name="Patronymic" Type="nvarchar(max)" />
+          <Property Name="BirthYear" Type="int" Nullable="false" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="OrderModels">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderContent" Type="nvarchar(max)" />
+          <Property Name="StartDateOfWork" Type="datetime" Nullable="false" />
+          <Property Name="EndDateOfWork" Type="datetime" />
+          <Property Name="Price" Type="int" Nullable="false" />
+          <Property Name="Car_CarId" Type="int" />
+        </EntityType>
+        <Association Name="FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId">
+          <End Role="CarOwnerModels" Type="Self.CarOwnerModels" Multiplicity="0..1" />
+          <End Role="CarModels" Type="Self.CarModels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarOwnerModels">
+              <PropertyRef Name="CarOwnerId" />
+            </Principal>
+            <Dependent Role="CarModels">
+              <PropertyRef Name="CarOwner_CarOwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Orders_dbo_Cars_Car_CarId">
+          <End Role="CarModels" Type="Self.CarModels" Multiplicity="0..1" />
+          <End Role="OrderModels" Type="Self.OrderModels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarModels">
+              <PropertyRef Name="CarId" />
+            </Principal>
+            <Dependent Role="OrderModels">
+              <PropertyRef Name="Car_CarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище AMWDataBaseModelContainer">
+          <EntitySet Name="CarModels" EntityType="Self.CarModels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CarOwnerModels" EntityType="Self.CarOwnerModels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderModels" EntityType="Self.OrderModels" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId" Association="Self.FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId">
+            <End Role="CarOwnerModels" EntitySet="CarOwnerModels" />
+            <End Role="CarModels" EntitySet="CarModels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Orders_dbo_Cars_Car_CarId" Association="Self.FK_dbo_Orders_dbo_Cars_Car_CarId">
+            <End Role="CarModels" EntitySet="CarModels" />
+            <End Role="OrderModels" EntitySet="OrderModels" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AMWDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CarModels">
+          <Key>
+            <PropertyRef Name="CarId" />
+          </Key>
+          <Property Name="CarId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Brand" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Model" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="AutomaticTransmission" Type="Boolean" Nullable="false" />
+          <Property Name="EnginePower" Type="Int32" Nullable="false" />
+          <Property Name="CarOwner_CarOwnerId" Type="Int32" />
+          <NavigationProperty Name="CarOwnerModels" Relationship="Self.FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId" FromRole="CarModels" ToRole="CarOwnerModels" />
+          <NavigationProperty Name="OrderModels" Relationship="Self.FK_dbo_Orders_dbo_Cars_Car_CarId" FromRole="CarModels" ToRole="OrderModels" />
+        </EntityType>
+        <EntityType Name="CarOwnerModels">
+          <Key>
+            <PropertyRef Name="CarOwnerId" />
+          </Key>
+          <Property Name="CarOwnerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Patronymic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BirthYear" Type="Int32" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CarModels" Relationship="Self.FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId" FromRole="CarOwnerModels" ToRole="CarModels" />
+        </EntityType>
+        <EntityType Name="OrderModels">
+          <Key>
+            <PropertyRef Name="OrderId" />
+          </Key>
+          <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StartDateOfWork" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EndDateOfWork" Type="DateTime" Precision="3" />
+          <Property Name="Price" Type="Int32" Nullable="false" />
+          <Property Name="Car_CarId" Type="Int32" />
+          <NavigationProperty Name="CarModels" Relationship="Self.FK_dbo_Orders_dbo_Cars_Car_CarId" FromRole="OrderModels" ToRole="CarModels" />
+        </EntityType>
+        <Association Name="FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId">
+          <End Role="CarOwnerModels" Type="Self.CarOwnerModels" Multiplicity="0..1" />
+          <End Role="CarModels" Type="Self.CarModels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarOwnerModels">
+              <PropertyRef Name="CarOwnerId" />
+            </Principal>
+            <Dependent Role="CarModels">
+              <PropertyRef Name="CarOwner_CarOwnerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_Orders_dbo_Cars_Car_CarId">
+          <End Role="CarModels" Type="Self.CarModels" Multiplicity="0..1" />
+          <End Role="OrderModels" Type="Self.OrderModels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CarModels">
+              <PropertyRef Name="CarId" />
+            </Principal>
+            <Dependent Role="OrderModels">
+              <PropertyRef Name="Car_CarId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CarModels" EntityType="Self.CarModels" />
+          <EntitySet Name="CarOwnerModels" EntityType="Self.CarOwnerModels" />
+          <EntitySet Name="OrderModels" EntityType="Self.OrderModels" />
+          <AssociationSet Name="FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId" Association="Self.FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId">
+            <End Role="CarOwnerModels" EntitySet="CarOwnerModels" />
+            <End Role="CarModels" EntitySet="CarModels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_Orders_dbo_Cars_Car_CarId" Association="Self.FK_dbo_Orders_dbo_Cars_Car_CarId">
+            <End Role="CarModels" EntitySet="CarModels" />
+            <End Role="OrderModels" EntitySet="OrderModels" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище AMWDataBaseModelContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="CarModels">
+            <EntityTypeMapping TypeName="AMWDataBaseModel.CarModels">
+              <MappingFragment StoreEntitySet="CarModels">
+                <ScalarProperty Name="CarId" ColumnName="CarId" />
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="AutomaticTransmission" ColumnName="AutomaticTransmission" />
+                <ScalarProperty Name="EnginePower" ColumnName="EnginePower" />
+                <ScalarProperty Name="CarOwner_CarOwnerId" ColumnName="CarOwner_CarOwnerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CarOwnerModels">
+            <EntityTypeMapping TypeName="AMWDataBaseModel.CarOwnerModels">
+              <MappingFragment StoreEntitySet="CarOwnerModels">
+                <ScalarProperty Name="CarOwnerId" ColumnName="CarOwnerId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+                <ScalarProperty Name="BirthYear" ColumnName="BirthYear" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderModels">
+            <EntityTypeMapping TypeName="AMWDataBaseModel.OrderModels">
+              <MappingFragment StoreEntitySet="OrderModels">
+                <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+                <ScalarProperty Name="OrderContent" ColumnName="OrderContent" />
+                <ScalarProperty Name="StartDateOfWork" ColumnName="StartDateOfWork" />
+                <ScalarProperty Name="EndDateOfWork" ColumnName="EndDateOfWork" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Car_CarId" ColumnName="Car_CarId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

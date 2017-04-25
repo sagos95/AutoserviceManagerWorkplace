@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище AMWDataBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CarModels">
+    <Key>
+      <PropertyRef Name="CarId" />
+    </Key>
+    <Property Name="CarId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Brand" Type="nvarchar(max)" />
+    <Property Name="Model" Type="nvarchar(max)" />
+    <Property Name="Year" Type="int" Nullable="false" />
+    <Property Name="AutomaticTransmission" Type="bit" Nullable="false" />
+    <Property Name="EnginePower" Type="int" Nullable="false" />
+    <Property Name="CarOwner_CarOwnerId" Type="int" />
+  </EntityType>
+  <EntityType Name="CarOwnerModels">
+    <Key>
+      <PropertyRef Name="CarOwnerId" />
+    </Key>
+    <Property Name="CarOwnerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" />
+    <Property Name="Surname" Type="nvarchar(max)" />
+    <Property Name="Patronymic" Type="nvarchar(max)" />
+    <Property Name="BirthYear" Type="int" Nullable="false" />
+    <Property Name="PhoneNumber" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="OrderModels">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="OrderContent" Type="nvarchar(max)" />
+    <Property Name="StartDateOfWork" Type="datetime" Nullable="false" />
+    <Property Name="EndDateOfWork" Type="datetime" />
+    <Property Name="Price" Type="int" Nullable="false" />
+    <Property Name="Car_CarId" Type="int" />
+  </EntityType>
+  <Association Name="FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId">
+    <End Role="CarOwnerModels" Type="Self.CarOwnerModels" Multiplicity="0..1" />
+    <End Role="CarModels" Type="Self.CarModels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarOwnerModels">
+        <PropertyRef Name="CarOwnerId" />
+      </Principal>
+      <Dependent Role="CarModels">
+        <PropertyRef Name="CarOwner_CarOwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Orders_dbo_Cars_Car_CarId">
+    <End Role="CarModels" Type="Self.CarModels" Multiplicity="0..1" />
+    <End Role="OrderModels" Type="Self.OrderModels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarModels">
+        <PropertyRef Name="CarId" />
+      </Principal>
+      <Dependent Role="OrderModels">
+        <PropertyRef Name="Car_CarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище AMWDataBaseModelContainer">
+    <EntitySet Name="CarModels" EntityType="Self.CarModels" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="CarOwnerModels" EntityType="Self.CarOwnerModels" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="OrderModels" EntityType="Self.OrderModels" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId" Association="Self.FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId">
+      <End Role="CarOwnerModels" EntitySet="CarOwnerModels" />
+      <End Role="CarModels" EntitySet="CarModels" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Orders_dbo_Cars_Car_CarId" Association="Self.FK_dbo_Orders_dbo_Cars_Car_CarId">
+      <End Role="CarModels" EntitySet="CarModels" />
+      <End Role="OrderModels" EntitySet="OrderModels" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

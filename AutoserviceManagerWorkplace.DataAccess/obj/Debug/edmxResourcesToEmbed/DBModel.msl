@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище AMWDataBaseModelContainer" CdmEntityContainer="Entities">
+    <EntitySetMapping Name="CarModels">
+      <EntityTypeMapping TypeName="AMWDataBaseModel.CarModels">
+        <MappingFragment StoreEntitySet="CarModels">
+          <ScalarProperty Name="CarId" ColumnName="CarId" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="Year" ColumnName="Year" />
+          <ScalarProperty Name="AutomaticTransmission" ColumnName="AutomaticTransmission" />
+          <ScalarProperty Name="EnginePower" ColumnName="EnginePower" />
+          <ScalarProperty Name="CarOwner_CarOwnerId" ColumnName="CarOwner_CarOwnerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CarOwnerModels">
+      <EntityTypeMapping TypeName="AMWDataBaseModel.CarOwnerModels">
+        <MappingFragment StoreEntitySet="CarOwnerModels">
+          <ScalarProperty Name="CarOwnerId" ColumnName="CarOwnerId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Surname" ColumnName="Surname" />
+          <ScalarProperty Name="Patronymic" ColumnName="Patronymic" />
+          <ScalarProperty Name="BirthYear" ColumnName="BirthYear" />
+          <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="OrderModels">
+      <EntityTypeMapping TypeName="AMWDataBaseModel.OrderModels">
+        <MappingFragment StoreEntitySet="OrderModels">
+          <ScalarProperty Name="OrderId" ColumnName="OrderId" />
+          <ScalarProperty Name="OrderContent" ColumnName="OrderContent" />
+          <ScalarProperty Name="StartDateOfWork" ColumnName="StartDateOfWork" />
+          <ScalarProperty Name="EndDateOfWork" ColumnName="EndDateOfWork" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Car_CarId" ColumnName="Car_CarId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

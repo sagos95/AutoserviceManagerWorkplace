@@ -1,0 +1,15 @@
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\bin\Debug\DataProject.exe.config
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\bin\Debug\DataProject.exe
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\bin\Debug\DataProject.pdb
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\obj\Debug\DataProject.csprojResolveAssemblyReference.cache
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\obj\Debug\DataProject.exe
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\obj\Debug\DataProject.pdb
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\bin\Debug\EntityFramework.dll
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\bin\Debug\EntityFramework.xml
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\obj\Debug\DataProject.Migrations.InitialCreate.resources
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\obj\Debug\AutoserviceManagerWorkplace.Migrations.CodeFirst.resources
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\obj\Debug\AutoserviceManagerWorkplace.Migrations.RightTitlesMigration.resources
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\obj\Debug\AutoserviceManagerWorkplace.Migrations.RightTitlesMigration2.resources
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\obj\Debug\DataProject.csproj.GenerateResource.Cache

@@ -5,8 +5,6 @@ H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\EntityFramewor
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\EntityFramework.SqlServer.dll
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\EntityFramework.xml
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\EntityFramework.SqlServer.xml
-H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\MainWindow.baml
-H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\MainWindow.g.cs
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\App.g.cs
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceManagerWorkplace_MarkupCompile.cache
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceManagerWorkplace.g.resources
@@ -16,5 +14,12 @@ H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceMan
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceManagerWorkplace.pdb
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\GeneratedInternalTypeHelper.g.cs
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceManagerWorkplace_MarkupCompile.lref
-H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceManagerWorkplace.Migrations.InitialCreate.resources
-H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceManagerWorkplace.Migrations.CodeFirst.resources
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\MainView.g.cs
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\MainView.baml
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\DiagramView.g.cs
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\System.Windows.Controls.DataVisualization.Toolkit.dll
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\System.Windows.Controls.DataVisualization.Toolkit.xml
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\DiagramView.baml
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceManagerWorkplace.csprojResolveAssemblyReference.cache
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\AutoserviceManagerWorkplace.DataAccess.exe
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\AutoserviceManagerWorkplace.DataAccess.pdb

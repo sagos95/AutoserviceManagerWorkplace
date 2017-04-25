@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AMWDataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="CarModels">
+    <Key>
+      <PropertyRef Name="CarId" />
+    </Key>
+    <Property Name="CarId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Brand" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Model" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Year" Type="Int32" Nullable="false" />
+    <Property Name="AutomaticTransmission" Type="Boolean" Nullable="false" />
+    <Property Name="EnginePower" Type="Int32" Nullable="false" />
+    <Property Name="CarOwner_CarOwnerId" Type="Int32" />
+    <NavigationProperty Name="CarOwnerModels" Relationship="Self.FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId" FromRole="CarModels" ToRole="CarOwnerModels" />
+    <NavigationProperty Name="OrderModels" Relationship="Self.FK_dbo_Orders_dbo_Cars_Car_CarId" FromRole="CarModels" ToRole="OrderModels" />
+  </EntityType>
+  <EntityType Name="CarOwnerModels">
+    <Key>
+      <PropertyRef Name="CarOwnerId" />
+    </Key>
+    <Property Name="CarOwnerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Patronymic" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="BirthYear" Type="Int32" Nullable="false" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="CarModels" Relationship="Self.FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId" FromRole="CarOwnerModels" ToRole="CarModels" />
+    <NavigationProperty Name="OrderModels" Relationship="Self.FK_dbo_Orders_dbo_CarOwners_CarOwner_CarOwnerId" FromRole="CarOwnerModels" ToRole="OrderModels" />
+  </EntityType>
+  <EntityType Name="OrderModels">
+    <Key>
+      <PropertyRef Name="OrderId" />
+    </Key>
+    <Property Name="OrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="StartDateOfWork" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndDateOfWork" Type="DateTime" Precision="3" Nullable="true" />
+    <Property Name="Price" Type="Int32" Nullable="false" />
+    <Property Name="Car_CarId" Type="Int32" />
+    <Property Name="CarOwner_CarOwnerId" Type="Int32" />
+    <NavigationProperty Name="CarModels" Relationship="Self.FK_dbo_Orders_dbo_Cars_Car_CarId" FromRole="OrderModels" ToRole="CarModels" />
+    <NavigationProperty Name="CarOwnerModels" Relationship="Self.FK_dbo_Orders_dbo_CarOwners_CarOwner_CarOwnerId" FromRole="OrderModels" ToRole="CarOwnerModels" />
+  </EntityType>
+  <Association Name="FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId">
+    <End Role="CarOwnerModels" Type="Self.CarOwnerModels" Multiplicity="0..1" />
+    <End Role="CarModels" Type="Self.CarModels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarOwnerModels">
+        <PropertyRef Name="CarOwnerId" />
+      </Principal>
+      <Dependent Role="CarModels">
+        <PropertyRef Name="CarOwner_CarOwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Orders_dbo_Cars_Car_CarId">
+    <End Role="CarModels" Type="Self.CarModels" Multiplicity="0..1" />
+    <End Role="OrderModels" Type="Self.OrderModels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarModels">
+        <PropertyRef Name="CarId" />
+      </Principal>
+      <Dependent Role="OrderModels">
+        <PropertyRef Name="Car_CarId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_Orders_dbo_CarOwners_CarOwner_CarOwnerId">
+    <End Role="CarOwnerModels" Type="Self.CarOwnerModels" Multiplicity="0..1" />
+    <End Role="OrderModels" Type="Self.OrderModels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CarOwnerModels">
+        <PropertyRef Name="CarOwnerId" />
+      </Principal>
+      <Dependent Role="OrderModels">
+        <PropertyRef Name="CarOwner_CarOwnerId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="CarModels" EntityType="Self.CarModels" />
+    <EntitySet Name="CarOwnerModels" EntityType="Self.CarOwnerModels" />
+    <EntitySet Name="OrderModels" EntityType="Self.OrderModels" />
+    <AssociationSet Name="FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId" Association="Self.FK_dbo_Cars_dbo_CarOwners_CarOwner_CarOwnerId">
+      <End Role="CarOwnerModels" EntitySet="CarOwnerModels" />
+      <End Role="CarModels" EntitySet="CarModels" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Orders_dbo_Cars_Car_CarId" Association="Self.FK_dbo_Orders_dbo_Cars_Car_CarId">
+      <End Role="CarModels" EntitySet="CarModels" />
+      <End Role="OrderModels" EntitySet="OrderModels" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_Orders_dbo_CarOwners_CarOwner_CarOwnerId" Association="Self.FK_dbo_Orders_dbo_CarOwners_CarOwner_CarOwnerId">
+      <End Role="CarOwnerModels" EntitySet="CarOwnerModels" />
+      <End Role="OrderModels" EntitySet="OrderModels" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

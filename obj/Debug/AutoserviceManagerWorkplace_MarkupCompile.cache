@@ -5,16 +5,16 @@ winexe
 C#
 .cs
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\
-AutoserviceManagerWorkplace
+AutoserviceManagerWorkplace.UI
 none
 false
 DEBUG;TRACE
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\App.xaml
-11151548125
+21081703216
 
-19-1729105259
-15-1093671959
-MainWindow.xaml;
+142045846727
+17-306705099
+DiagramView.xaml;MainView.xaml;
 
 False
 
