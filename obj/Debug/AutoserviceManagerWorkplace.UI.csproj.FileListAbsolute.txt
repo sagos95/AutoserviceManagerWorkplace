@@ -8,14 +8,10 @@ H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\AutoserviceMan
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\EntityFramework.xml
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\EntityFramework.SqlServer.xml
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\System.Windows.Controls.DataVisualization.Toolkit.xml
-H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\DiagramView.g.cs
-H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\MainView.g.cs
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\App.g.cs
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\GeneratedInternalTypeHelper.g.cs
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceManagerWorkplace_MarkupCompile.cache
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceManagerWorkplace_MarkupCompile.lref
-H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\DiagramView.baml
-H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\MainView.baml
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceManagerWorkplace.g.resources
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceManagerWorkplace.UI.csproj.GenerateResource.Cache
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceManagerWorkplace.exe
@@ -24,3 +20,8 @@ H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceMan
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\AutoserviceManagerWorkplace.DataAccess.dll
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\AutoserviceManagerWorkplace.UI.Properties.Resources.resources
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\ru\EntityFramework.resources.dll
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\bin\Debug\AMWDataBase.mdf
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\DiagramView.g.cs
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\DiagramView.baml
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\MainView.g.cs
+H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\obj\Debug\MainView.baml
