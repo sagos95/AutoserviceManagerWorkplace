@@ -58,13 +58,13 @@ namespace AutoserviceManagerWorkplace.UI
             {
                 currentDiagramDataType = value;
                 var orderData = MainViewModel.GetOrdersCollection();
-                orderData = new ObservableCollection<UIOrderRowModel>(orderData.Where(order => order.StartDateOfWork.Year == DateTime.Now.Year));
                 switch (value)
                 {
                     case DiagramDataType.OrderPerBrand:                       
                         ChartData = orderData.GroupBy(row => row.Brand).ToDictionary(item => item.Key, item => item.Count());                        
                         break;
                     case DiagramDataType.OrderPerMonth:
+                        orderData = new ObservableCollection<UIOrderRowModel>(orderData.Where(order => order.StartDateOfWork.Year == DateTime.Now.Year));
                         var query1 = orderData.GroupBy(row => row.StartDateOfWork.Month).OrderBy(group => group.Key);
                         ChartData = query1.ToDictionary(item => CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.Key), item => item.Count());  
                         break;
