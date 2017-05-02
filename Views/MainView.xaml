@@ -3,12 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:AutoserviceManagerWorkplace.UI"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        Title="АРМ менеджера автосервиса" Height="540" Width="1089">
+        Title="АРМ менеджера автосервиса" Height="516.209" Width="1077"
+        >
     <Window.Resources>
         <local:MainViewModel x:Key="viewModel"/>
         <local:RadioButtonConverter x:Key="RadioButtonConverter"/>
         <local:BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
-        <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="RadioButton" x:Key="MyRadioStyle1">
+        <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="RadioButton" x:Key="RadioHeader">
             <Setter Property="Background">
                 <Setter.Value>
                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
@@ -28,19 +29,17 @@
                                 <Rectangle.Fill>
                                     <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                         <LinearGradientBrush.GradientStops>
-                                            <GradientStop Offset="0.0" Color="#DDAAAA" />
-                                            <GradientStop Offset="0.2" Color="#FFFFFF" />
-                                            <GradientStop Offset="1.0" Color="#FFAAAA" />
+                                            <GradientStop Offset="0.0" Color="WhiteSmoke" />
+                                            <GradientStop Offset="0.402" Color="WhiteSmoke" />
+                                            <GradientStop Offset="1.0" Color="#FFD1D1D1" />
+                                            <GradientStop Color="#FFECECEC" Offset="0.462"/>
                                         </LinearGradientBrush.GradientStops>
                                     </LinearGradientBrush>
                                 </Rectangle.Fill>
                             </Rectangle>
-                            <Rectangle Height="2" VerticalAlignment="Bottom" Fill="#FFE43939"/>
-                            <Grid Name="TickMark" Visibility="Hidden">
-                                <Rectangle Visibility="Hidden" Stretch="Fill">
-
-                                </Rectangle>
-                                <Path HorizontalAlignment="Right" VerticalAlignment="Top" Stroke="#FFE43939"
+                            <Rectangle Height="2" VerticalAlignment="Bottom" Fill="#FF3977E4"/>
+                            <Grid Name="MouseOverMark" Visibility="Hidden">
+                                <Path HorizontalAlignment="Right" VerticalAlignment="Top" Stroke="#FF3977E4"
                                       StrokeThickness="1" Stretch="Fill">
                                     <Path.Data>
                                         <PathGeometry>
@@ -49,7 +48,7 @@
                                                     <PathFigure StartPoint="0,100">
                                                         <PathFigure.Segments>
                                                             <PathSegmentCollection>
-                                                                <PolyBezierSegment Points="30,100 0,-30 50,-30 100,-30 70,100 100,100" />
+                                                                <PolyBezierSegment Points="10,100 0,0 10,0 45,0 55,0 90,0 100,0 90,100 100,100" />
                                                             </PathSegmentCollection>
                                                         </PathFigure.Segments>
                                                     </PathFigure>
@@ -60,9 +59,41 @@
                                     <Path.Fill>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                                             <LinearGradientBrush.GradientStops>
-                                                <GradientStop Offset="0.0" Color="#FFDDAAAA" />
-                                                <GradientStop Offset="0.2" Color="#FFFFFF" />
-                                                <GradientStop Offset="1.0" Color="#FFFF6565" />
+                                                <GradientStop Offset="0.0" Color="#FFE5EDF3" />
+                                                <GradientStop Offset="0.385" Color="#FFF1F4F7" />
+                                                <GradientStop Offset="1.0" Color="#FFCFDCE6" />
+                                                <GradientStop Color="#FFE4E7EA" Offset="0.436"/>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Path.Fill>
+                                </Path>
+                            </Grid>
+                            <Grid Name="TickMark" Visibility="Hidden">
+
+                                <Path HorizontalAlignment="Right" VerticalAlignment="Top" Stroke="#FF3977E4"
+                                      StrokeThickness="1" Stretch="Fill">
+                                    <Path.Data>
+                                        <PathGeometry>
+                                            <PathGeometry.Figures>
+                                                <PathFigureCollection>
+                                                    <PathFigure StartPoint="0,100">
+                                                        <PathFigure.Segments>
+                                                            <PathSegmentCollection>
+                                                                <PolyBezierSegment Points="10,100 0,0 10,0 45,0 55,0 90,0 100,0 90,100 100,100" />
+                                                            </PathSegmentCollection>
+                                                        </PathFigure.Segments>
+                                                    </PathFigure>
+                                                </PathFigureCollection>
+                                            </PathGeometry.Figures>
+                                        </PathGeometry>
+                                    </Path.Data>
+                                    <Path.Fill>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Offset="0.0" Color="AliceBlue" />
+                                                <GradientStop Offset="0.385" Color="AliceBlue" />
+                                                <GradientStop Offset="1.0" Color="#FFDBEFFF" />
+                                                <GradientStop Color="#FFDBEFFF" Offset="0.436"/>
                                             </LinearGradientBrush.GradientStops>
                                         </LinearGradientBrush>
                                     </Path.Fill>
@@ -71,10 +102,6 @@
                             <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               />
-                            <Ellipse Name="IndeterminateMark"
-                                     Width="3" Height="3"
-                                     Fill="Blue"
-                                     Visibility="Hidden" />
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="HasContent" Value="true">
@@ -86,31 +113,40 @@
                             <Trigger Property="IsChecked" Value="True">
                                 <Setter TargetName="TickMark" Property="Visibility" Value="Visible" />
                             </Trigger>
-                            <Trigger Property="IsChecked" Value="{x:Null}">
-                                <Setter TargetName="IndeterminateMark" Property="Visibility" Value="Visible" />
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="MouseOverMark" Property="Visibility" Value="Visible"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="DataGridRow">
+            <Setter Property="ToolTip">
+                <Setter.Value>
+                    <ToolTip>
+                        <TextBlock Text="{Binding CarOwnerInfo}"></TextBlock>
+                    </ToolTip>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
-    <DockPanel>
+    <DockPanel Margin="0">
         <Grid x:Name="OperationTypeButtons" DockPanel.Dock="Top" Height="57" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <RadioButton Content="СОРТИРОВКА" Margin="0,10" Grid.Column="0" GroupName="ViewMode" Style="{StaticResource MyRadioStyle1}"
+            <RadioButton Content="СОРТИРОВКА" Margin="0,10" Grid.Column="0" GroupName="ViewMode" Style="{StaticResource RadioHeader}"
                          IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOperationType,
                          Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OperationType.Sort}}"
                          />
-            <RadioButton Content="ФИЛЬТРАЦИЯ" Margin="0,10" Grid.Column="1" GroupName="ViewMode" Style="{StaticResource MyRadioStyle1}"
+            <RadioButton Content="ФИЛЬТРАЦИЯ" Margin="0,10" Grid.Column="1" GroupName="ViewMode" Style="{StaticResource RadioHeader}"
                          IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOperationType,
                          Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OperationType.Filter}}"
                          />
-            <RadioButton Content="ПОИСК" Margin="0,10" Grid.Column="2" GroupName="ViewMode" Style="{StaticResource MyRadioStyle1}"
+            <RadioButton Content="ПОИСК" Margin="0,10" Grid.Column="2" GroupName="ViewMode" Style="{StaticResource RadioHeader}"
                          IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOperationType,
                          Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OperationType.Search}}"
                          />
@@ -118,14 +154,16 @@
         <Grid x:Name="OperationParameters" DockPanel.Dock="Top" Margin="10,0,0,0" VerticalAlignment="Top"
               Visibility="Visible">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="23*"/>
+                <ColumnDefinition Width="743*"/>
+                <ColumnDefinition Width="316*"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="97*"/>
-                    <ColumnDefinition Width="161*"/>
-                    <ColumnDefinition Width="192*"/>
+                    <ColumnDefinition Width="94*"/>
+                    <ColumnDefinition Width="117*"/>
+                    <ColumnDefinition Width="162*"/>
+                    <ColumnDefinition Width="174*"/>
+                    <ColumnDefinition Width="196*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <RadioButton Margin="3,3,3,3" Grid.Row="0" Grid.Column="0" GroupName="ColumnParameter" Content="По ID заказа"
@@ -133,28 +171,25 @@
                     Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.OrderId}}"/>
                     <RadioButton Margin="3,3,3,3" Content="По марке" Grid.Row="0" GroupName="ColumnParameter"
                    IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
-                    Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.Brand}}"
-                />
-                    <RadioButton Margin="3,3,3,3" Content="По модели" Grid.Row="0" GroupName="ColumnParameter"
-                   IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
-                    Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.Model}}"
-                />
+                    Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.Brand}}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
+                    <RadioButton Margin="3,3,3,3" Content="По модели" Grid.Row="0" GroupName="ColumnParameter"
+                   IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
+                    Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.Model}}"/>
                     <RadioButton Margin="3,3,3,3" Content="По году выпуска" Grid.Row="0" Grid.Column="1" GroupName="ColumnParameter"
                         IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
-                        Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.Year}}"
-                    />
-                    <RadioButton Margin="3,3,3,3" Content="По типу трансмиссии" Grid.Row="0" Grid.Column="1" GroupName="ColumnParameter"
-                        IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
-                        Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.AutomaticTransmission}}"
-                    />
-                    <RadioButton Margin="3,3,3,3" Content="По мощности двигателя" Grid.Row="0" Grid.Column="1" GroupName="ColumnParameter"
-                        IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
-                        Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.EnginePower}}"
-                    />
+                        Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.Year}}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="2">
+                    <RadioButton Margin="3,3,3,3" Content="По типу трансмиссии" Grid.Row="0" Grid.Column="1" GroupName="ColumnParameter"
+                        IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
+                        Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.AutomaticTransmission}}"/>
+                    <RadioButton Margin="3,3,3,3" Content="По мощности двигателя" Grid.Row="0" Grid.Column="1" GroupName="ColumnParameter"
+                        IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
+                        Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.EnginePower}}"/>
+                </StackPanel>
+                <StackPanel Grid.Column="3">
                     <RadioButton Margin="3,3,3,3" Content="По наименованию работ" Grid.Row="0" Grid.Column="1" GroupName="ColumnParameter"
                         IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
                         Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.OrderContent}}"
@@ -163,9 +198,15 @@
                         IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
                         Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.StartDateOfWork}}"
                     />
+                </StackPanel>
+                <StackPanel Grid.Column="4">
                     <RadioButton Margin="3,3,3,3" Content="По времени окончания работ" Grid.Row="0" Grid.Column="1" GroupName="ColumnParameter"
                         IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
                         Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.EndDateOfWork}}"
+                    />
+                    <RadioButton Margin="3,3,3,3" Content="По стоимости" Grid.Row="0" Grid.Column="1" GroupName="ColumnParameter"
+                        IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
+                        Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.Price}}"
                     />
                 </StackPanel>
             </Grid>
@@ -181,59 +222,69 @@
                              Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:SortDirection.Decrease}}"
                              />
             </StackPanel>
-            <Grid x:Name="FilterPanel" Grid.Column="1"
+            <StackPanel x:Name="FilterPanel" Grid.Column="1"                  
                   Visibility="{Binding Source={StaticResource viewModel}, Path=CurrentOperationType, Converter={StaticResource VisibilityConverter},
                   ConverterParameter={x:Static local:OperationType.Filter}}">
-                <ComboBox x:Name="FilterComboBox" Margin="10,10,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Grid.ColumnSpan="2"
+                <Label Content="Фильтруемое значение:" Margin="0,-2"/>
+                <ComboBox x:Name="FilterComboBox" Margin="0,0,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Grid.ColumnSpan="2"
                           ItemsSource="{Binding Source={StaticResource viewModel}, Path=FilterValues}"                          
                           SelectedItem="{Binding Source={StaticResource viewModel}, Path=SelectedFilterValue, Mode=TwoWay}"
                           SelectedIndex="0"
                           />
-            </Grid>
+            </StackPanel>
             <StackPanel x:Name="SearchPanel" Grid.Column="1"
                         Visibility="{Binding Source={StaticResource viewModel}, Path=CurrentOperationType, Converter={StaticResource VisibilityConverter},
                         ConverterParameter={x:Static local:OperationType.Search}}">
-                <Label Content="Найти:"/>
-                <TextBox x:Name="searchTextBox" Margin="10,0,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Grid.ColumnSpan="2"
+                <Label Content="Найти:" Margin="0,-2"/>
+                <TextBox x:Name="searchTextBox" Margin="0,0,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" Grid.ColumnSpan="2"
                     Text="{Binding SearchValue, Mode=OneWayToSource, Source={StaticResource viewModel}, UpdateSourceTrigger=PropertyChanged}"
                 />
             </StackPanel>
         </Grid>
-        <DataGrid x:Name="dataGrid" Margin="10" AutoGenerateColumns="False" DockPanel.Dock="Top"
-                      ItemsSource="{Binding Source={StaticResource viewModel}, Path=OrderCollection}"
+        <StackPanel DockPanel.Dock="Top" Orientation="Vertical" VerticalAlignment="Top">
+            <DataGrid x:Name="dataGrid" Margin="10" AutoGenerateColumns="False" DockPanel.Dock="Top" Height="314"
+                      ItemsSource="{Binding Source={StaticResource viewModel}, Path=VisibleOrderCollection}" IsReadOnly="True" 
             >
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Номер заказа" Binding="{Binding OrderId}"/>
-                <DataGridTextColumn Header="Наименование работ" Binding="{Binding OrderContent}"/>
-                <DataGridTextColumn Header="Стоимость работ" Binding="{Binding Price}"/>
-                <DataGridTextColumn Header="Дата начала работ" Binding="{Binding StartDateOfWorkWithDots}"/>
-                <DataGridTextColumn Header="Дата конца работ" Binding="{Binding EndDateOfWorkWithDots}"/>
-                <DataGridTextColumn Header="Марка авто" Binding="{Binding Brand}"/>
-                <DataGridTextColumn Header="Модель авто" Binding="{Binding Model}"/>
-                <DataGridTextColumn Header="Год выпуска" Binding="{Binding Year}"/>
-                <DataGridTextColumn Header="Мощность двигателя" Binding="{Binding EnginePower}"/>
-                <DataGridTextColumn Header="Трансмиссия" Binding="{Binding AutomaticTransmission}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-        <StackPanel DockPanel.Dock="Top" Orientation="Vertical" VerticalAlignment="Bottom" Height="82">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0" Orientation="Horizontal">
-                    <Label Margin="0,0,0,0" Content="Страница:"/>
-                    <Button Content="&lt;" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Width="33" Height="23" Background="White"/>
-                    <TextBox Margin="10,0,10,0" Height="23"/>
-                    <Button Content="&gt;" HorizontalAlignment="Left" Margin="0" Width="33" Background="White" Height="23"/>
-                    <Label Margin="0,0,0,0" Content="из "/>
-                </StackPanel>
-            </Grid>
-
-            <Button Content="Статистика" Margin="10"
-        		Command="{Binding ShowDiagramView, Source={StaticResource viewModel}}">
-            </Button>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Номер заказа" Binding="{Binding OrderId}" Width="2.2*"/>
+                    <DataGridTextColumn Header="Наименование работ" Binding="{Binding OrderContent}" Width="5*"/>
+                    <DataGridTextColumn Header="Стоимость" Binding="{Binding Price}" Width="1.7*"/>
+                    <DataGridTextColumn Header="Дата начала работ" Binding="{Binding StartDateOfWorkWithDots}" Width="2.8*"/>
+                    <DataGridTextColumn Header="Дата конца работ" Binding="{Binding EndDateOfWorkWithDots}" Width="2.8*"/>
+                    <DataGridTextColumn Header="Марка авто" Binding="{Binding Brand}" Width="2*"/>
+                    <DataGridTextColumn Header="Модель авто" Binding="{Binding Model}" Width="2*"/>
+                    <DataGridTextColumn Header="Год авто" Binding="{Binding Year}" Width="1.4*"/>
+                    <DataGridTextColumn Header="Мощность двигателя" Binding="{Binding EnginePower}" Width="3*"/>
+                    <DataGridTextColumn Header="Трансмиссия" Binding="{Binding AutomaticTransmission}" Width="2*"/>
+                </DataGrid.Columns>
+            </DataGrid>           
         </StackPanel>
+        <Grid DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Label Margin="0,0,0,0" Content="Страница:"/>
+                <Button Content="&lt;" Grid.Column="1" HorizontalAlignment="Left" Margin="0" Width="33" Height="23" Background="White"
+                            Command="{Binding PreviousPage, Source={StaticResource viewModel}}"/>
+                <TextBox Margin="10,0,10,0" Height="23" Width="34"
+                             Text="{Binding CurrentPageNum, Source={StaticResource viewModel}, Mode=TwoWay,
+                             UpdateSourceTrigger=PropertyChanged}"/>
+                <Button Content="&gt;" HorizontalAlignment="Left" Margin="0" Width="33" Background="White" Height="23"
+                            Command="{Binding NextPage, Source={StaticResource viewModel}}"/>
+                <Label Margin="0" Content="из "/>
+                <Label Margin="-5,0,0,0" Content="{Binding OrdersPagesCount, Source={StaticResource viewModel}}"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Label Margin="0" Content="Записей на странице:"/>
+                <TextBox Margin="5,0,0,0" Height="23" Width="34"
+                             Text="{Binding RowsPerPage, Source={StaticResource viewModel}, Mode=TwoWay,
+                             UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <Button Content="Статистика" Grid.Column="2" Margin="0" Width="120px"
+        		Command="{Binding ShowDiagramView, Source={StaticResource viewModel}}"/>
+        </Grid>
     </DockPanel>
 </Window>

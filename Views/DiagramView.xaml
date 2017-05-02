@@ -9,7 +9,6 @@
         <local:DiagramViewModel x:Key="diagramViewModel"/>
         <local:BooleanToVisibilityConverter x:Key="visibilityConverter"/>
         <local:StringToEnumConverter x:Key="stringToEnumTypeConverter"/>
-        <!--<res:Resources x:Key="stringResources"/>-->
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>

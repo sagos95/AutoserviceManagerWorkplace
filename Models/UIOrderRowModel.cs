@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AutoserviceManagerWorkplace.UI
 {
-    public class UIOrderRow
+    public class UIOrderRowModel
     {
         public int OrderId { get; set; }
         public string Brand { get; set; }
@@ -35,6 +35,7 @@ namespace AutoserviceManagerWorkplace.UI
             private set { }
         }
         public int Price { get; set; }
+        public string CarOwnerInfo { get; set; }
         public static string ConvertToUIPropertyName(OrderProperty orderProperty)
         {
             var result = orderProperty.ToString();

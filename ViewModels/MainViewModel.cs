@@ -10,6 +10,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using AutoserviceManagerWorkplace.DataAccess;
+using System.Text.RegularExpressions;
 
 namespace AutoserviceManagerWorkplace.UI
 {
@@ -19,8 +20,9 @@ namespace AutoserviceManagerWorkplace.UI
 
     class MainViewModel : INotifyPropertyChanged
     {
-        public ICommand ShowDiagramView { get; set; }
-
+        public Command ShowDiagramView { get; set; }
+        public Command NextPage { get; set; }
+        public Command PreviousPage { get; set; }
         private bool stopRefreshingFilterListBox = false;
 
         private OperationType currentOperationType = OperationType.Sort;
@@ -33,7 +35,7 @@ namespace AutoserviceManagerWorkplace.UI
                 switch (currentOperationType)
                 {
                     case OperationType.Sort:
-                        OrderCollection = UIOrderRowBuilder.GetOrdersData();
+                        OrderCollection = GetOrdersCollection();
                         OrderCollection = SortOrders();
                         break;
                     case OperationType.Filter:
@@ -46,7 +48,7 @@ namespace AutoserviceManagerWorkplace.UI
                 OnPropertyChanged("CurrentOperationType");
             }
         }
-        private OrderProperty currentOrderProperty = OrderProperty.Model;
+        private OrderProperty currentOrderProperty;
         public OrderProperty CurrentOrderProperty
         {
             get { return currentOrderProperty; }
@@ -116,42 +118,159 @@ namespace AutoserviceManagerWorkplace.UI
                 }
             }
         }
+        private int currentPageNum = 1;
+        public object CurrentPageNum
+        {
+            get { return currentPageNum; }
+            set
+            {
+                if (value.GetType().Equals(typeof(int)))
+                {
+                    currentPageNum = (int)value;
+                }
+                else
+                {
+                    var sourceString = value.ToString();
+                    Regex regex = new Regex("[^0-9]+");
+                    if (!regex.IsMatch(sourceString))
+                    {
+                        currentPageNum = sourceString.Equals("") ? 0 : System.Convert.ToInt32(sourceString);
+                    }
+                }
+                NextPage.OnCanExecuteChanged(null, null);
+                PreviousPage.OnCanExecuteChanged(null, null);
+                OnPropertyChanged("CurrentPageNum");
+                OnPropertyChanged("VisibleOrderCollection");
+            }
+        }
+        private int ordersPageCount = orderCollection.Count;
+        public int OrdersPagesCount
+        {
+            get { return ordersPageCount; }
+            set
+            {
+                ordersPageCount = Convert.ToInt32(value);
+                OnPropertyChanged("OrdersPagesCount");
+            }
+        }
+        private int rowsPerPage = 10;
+        public object RowsPerPage
+        {
+            get { return rowsPerPage; }
+            set
+            {
+                if (value.GetType().Equals(typeof(int)))
+                {
+                    rowsPerPage = (int)value;
+                }
+                else
+                {
+                    var sourceString = value.ToString();
+                    Regex regex = new Regex("[^0-9]+");                  
+                    if (!regex.IsMatch(sourceString))
+                    {
+                        rowsPerPage = sourceString.Equals("") ? 0 : System.Convert.ToInt32(sourceString);
+                    }
+                }
+                if (rowsPerPage <= 0)
+                {
+                    rowsPerPage = 1;
+                }   
+                CurrentPageNum = 1;
+                NextPage.OnCanExecuteChanged(null, null);
+                PreviousPage.OnCanExecuteChanged(null, null);
+                OnPropertyChanged("RowsPerPage");
+                OnPropertyChanged("VisibleOrderCollection");
+            }
+        }
 
-        ObservableCollection<UIOrderRow> orderCollection = UIOrderRowBuilder.GetOrdersData();
-        public ObservableCollection<UIOrderRow> OrderCollection
+        private static ObservableCollection<UIOrderRowModel> orderCollection = GetOrdersCollection();
+        public ObservableCollection<UIOrderRowModel> OrderCollection
         {
             get { return orderCollection; }
             set
             {
                 orderCollection = value;
-                OnPropertyChanged("OrderCollection");
+                OnPropertyChanged("VisibleOrderCollection");
+            }
+        }
+        public ObservableCollection<UIOrderRowModel> VisibleOrderCollection
+        {
+            get
+            {
+                var pagesStrictCount = orderCollection.Count / (double)rowsPerPage;
+                OrdersPagesCount = (int)pagesStrictCount;
+                if (pagesStrictCount - OrdersPagesCount > 0)
+                {
+                    OrdersPagesCount++;
+                }
+                var lowIndex = (currentPageNum - 1) * rowsPerPage;
+                var highIndex = (currentPageNum) * rowsPerPage - 1;
+                NextPage.OnCanExecuteChanged(null, null);
+                PreviousPage.OnCanExecuteChanged(null, null);
+                return new ObservableCollection<UIOrderRowModel>(
+                    orderCollection.Where(row => orderCollection.IndexOf(row) >= lowIndex && orderCollection.IndexOf(row) <= highIndex));
+            }
+            set
+            {
+                OnPropertyChanged("VisibleOrderCollection");
             }
         }
 
         public MainViewModel()
         {
-            ShowDiagramView = new Command(showDiagramView, alwaysCanExecute);           
-
+            ShowDiagramView = new Command(showDiagramView, x => true);
+            NextPage = new Command(nextPage, canGoToNextPage);
+            PreviousPage = new Command(previousPage, canGoToPreviousPage);
         }
-        private bool alwaysCanExecute(object parameter)
+
+        public static ObservableCollection<UIOrderRowModel> GetOrdersCollection()
         {
-            return true;
+            var result = new ObservableCollection<UIOrderRowModel>();
+            using (DataBaseContext context = new DataBaseContext())
+            {
+                var currentOrders = context.Orders.Include("Car").ToList();
+                foreach (var order in currentOrders)
+                {
+                    var currentCar = context.Cars.Include("CarOwner").FirstOrDefault(car => car.CarId == order.Car.CarId);
+                    var currenCarOwner = context.CarOwners.FirstOrDefault(owner => owner.CarOwnerId == currentCar.CarOwner.CarOwnerId);
+                    var currenCarOwnerInfo =
+                        String.Format("Информация о владельце\nФамилия: {0}\nИмя: {1}\nОтчество: {2}\nГод рожения: {3}\nТелефон: {4}",
+                        currenCarOwner.Surname, currenCarOwner.Name, currenCarOwner.Patronymic, currenCarOwner.BirthYear, currenCarOwner.PhoneNumber);
+                    var columns = new UIOrderRowModel()
+                    {
+                        OrderId = order.OrderId,
+                        AutomaticTransmission = currentCar.AutomaticTransmission ?
+                                                Properties.Resources.AutomaticTransmissionType : Properties.Resources.ManualTransmissionType,
+                        Brand = currentCar.Brand,
+                        EnginePower = currentCar.EnginePower,
+                        Model = currentCar.Model,
+                        Year = currentCar.Year,
+                        OrderContent = order.OrderContent,
+                        StartDateOfWork = order.StartDateOfWork,
+                        EndDateOfWork = order.EndDateOfWork,
+                        Price = order.Price,
+                        CarOwnerInfo = currenCarOwnerInfo
+                    };
+                    result.Add(columns);
+                }
+            }
+            return result;
         }
-
-        private ObservableCollection<UIOrderRow> SortOrders()
+        private ObservableCollection<UIOrderRowModel> SortOrders()
         {
             var currentColumnName = CurrentOrderProperty.ToString();
-            var customComparer = new CompareBy<UIOrderRow>(currentColumnName, sortDirection == SortDirection.Raise);
+            var customComparer = new CompareBy<UIOrderRowModel>(currentColumnName, sortDirection == SortDirection.Raise);
 
-            var list = new List<UIOrderRow>(orderCollection);
+            var list = new List<UIOrderRowModel>(orderCollection);
             list.Sort(customComparer);
-            orderCollection = new ObservableCollection<UIOrderRow>(list);
+            orderCollection = new ObservableCollection<UIOrderRowModel>(list);
             
             return orderCollection;
         }
         private void GetFilterValues()
         {
-            string correctedPropertyName = UIOrderRow.ConvertToUIPropertyName(CurrentOrderProperty);                
+            string correctedPropertyName = UIOrderRowModel.ConvertToUIPropertyName(CurrentOrderProperty);                
             stopRefreshingFilterListBox = true;
             FilterValues.Clear();
             if (CurrentOrderProperty == OrderProperty.AutomaticTransmission)
@@ -163,8 +282,8 @@ namespace AutoserviceManagerWorkplace.UI
             }
             else
             {
-                var columnPropertyInfo = typeof(UIOrderRow).GetProperty(correctedPropertyName);
-                orderCollection = UIOrderRowBuilder.GetOrdersData();
+                var columnPropertyInfo = typeof(UIOrderRowModel).GetProperty(correctedPropertyName);
+                orderCollection = GetOrdersCollection();
                 foreach (var order in orderCollection)
                 {
                     if (columnPropertyInfo.GetValue(order, null) != null)
@@ -180,16 +299,16 @@ namespace AutoserviceManagerWorkplace.UI
         }
         private void FilterOrders()
         {
-            OrderCollection = UIOrderRowBuilder.GetOrdersData();
-            var filteringColumn = typeof(UIOrderRow).GetProperty(UIOrderRow.ConvertToUIPropertyName(CurrentOrderProperty));
-            OrderCollection = new ObservableCollection<UIOrderRow>(
+            OrderCollection = GetOrdersCollection();
+            var filteringColumn = typeof(UIOrderRowModel).GetProperty(UIOrderRowModel.ConvertToUIPropertyName(CurrentOrderProperty));
+            OrderCollection = new ObservableCollection<UIOrderRowModel>(
                     OrderCollection.Where(order => filteringColumn.GetValue(order, null).ToString() == SelectedFilterValue));
         }
         private void FindOrders()
         {
-            OrderCollection = UIOrderRowBuilder.GetOrdersData();
-            var findingColumn = typeof(UIOrderRow).GetProperty(CurrentOrderProperty.ToString());
-            OrderCollection = new ObservableCollection<UIOrderRow>(
+            OrderCollection = GetOrdersCollection();
+            var findingColumn = typeof(UIOrderRowModel).GetProperty(UIOrderRowModel.ConvertToUIPropertyName(CurrentOrderProperty));
+            OrderCollection = new ObservableCollection<UIOrderRowModel>(
                    OrderCollection.Where(order => findingColumn.GetValue(order, null).ToString().StartsWith(SearchValue)));
         }
 
@@ -197,6 +316,22 @@ namespace AutoserviceManagerWorkplace.UI
         {
             var newView = new DiagramView();
             newView.Show();
+        }
+        private void nextPage(object obj)
+        {            
+            CurrentPageNum = (int)CurrentPageNum + 1;
+        }
+        private void previousPage(object obj)
+        {
+            CurrentPageNum = (int)CurrentPageNum - 1;
+        }
+        private bool canGoToNextPage(object obj)
+        {
+            return currentPageNum < OrdersPagesCount;
+        }
+        private bool canGoToPreviousPage(object obj)
+        {
+            return currentPageNum > 1;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

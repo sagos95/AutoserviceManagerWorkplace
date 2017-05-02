@@ -108,20 +108,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\BooleanToVisibilityConverter.cs" />
-    <Compile Include="DiagramView.xaml.cs">
+    <Compile Include="Views\DiagramView.xaml.cs">
       <DependentUpon>DiagramView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\DiagramViewModel.cs" />
     <Compile Include="Helpers\RadioButtonConverter.cs" />
     <Compile Include="Helpers\StringToEnumConverter.cs" />
-    <Compile Include="Helpers\UIOrderRowBuilder.cs" />
-    <Compile Include="Helpers\UIOrderRow.cs" />
+    <Compile Include="Models\UIOrderRowModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Page Include="DiagramView.xaml">
+    <Page Include="Views\DiagramView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainView.xaml">
+    <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -130,7 +129,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\Command.cs" />
-    <Compile Include="MainView.xaml.cs">
+    <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -153,7 +152,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -171,9 +172,7 @@
       <Name>AutoserviceManagerWorkplace.DataAccess</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

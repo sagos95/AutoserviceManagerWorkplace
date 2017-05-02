@@ -34,9 +34,10 @@ namespace AutoserviceManagerWorkplace.UI
     {
         protected static string PriceGroup(int price)
         {
-            if (price <= 1000) return "1. до 1000р.";
-            if (price > 1000 && price <= 5000) return "2. от 1000 до 5000р.";
-            return "3. более 5000р.";
+            if (price <= 1000) return "1. до 1 000р.";
+            if (price > 1000 && price <= 5000) return "2. от 1 000 до 5 000р.";
+            if (price > 5000 && price <= 10000) return "2. от 5 000 до 10 000р.";
+            return "3. более 10 000р.";
         }
 
         private ObservableCollection<string> diagramDataVariants = new ObservableCollection<string>();
@@ -56,18 +57,20 @@ namespace AutoserviceManagerWorkplace.UI
             set
             {
                 currentDiagramDataType = value;
-                var orderData = UIOrderRowBuilder.GetOrdersData();
+                var orderData = MainViewModel.GetOrdersCollection();
+                orderData = new ObservableCollection<UIOrderRowModel>(orderData.Where(order => order.StartDateOfWork.Year == DateTime.Now.Year));
                 switch (value)
                 {
                     case DiagramDataType.OrderPerBrand:                       
                         ChartData = orderData.GroupBy(row => row.Brand).ToDictionary(item => item.Key, item => item.Count());                        
                         break;
-                    case DiagramDataType.OrderPerMonth: 
-                        ChartData = orderData.GroupBy(row => row.StartDateOfWork.ToString("MMMM")).ToDictionary(item => item.Key, item => item.Count());  
+                    case DiagramDataType.OrderPerMonth:
+                        var query1 = orderData.GroupBy(row => row.StartDateOfWork.Month).OrderBy(group => group.Key);
+                        ChartData = query1.ToDictionary(item => CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.Key), item => item.Count());  
                         break;
                     case DiagramDataType.OrderPerPriceGroup:
-                        var query = orderData.GroupBy(row => PriceGroup(row.Price).ToString()).OrderBy(group => group.Key);
-                        ChartData = query.ToDictionary(item => item.Key, item => item.Count());
+                        var query2 = orderData.GroupBy(row => PriceGroup(row.Price).ToString()).OrderBy(group => group.Key);
+                        ChartData = query2.ToDictionary(item => item.Key, item => item.Count());
                         break;     
                 }
                 OnPropertyChanged("CurrentDiagramType");
@@ -116,11 +119,6 @@ namespace AutoserviceManagerWorkplace.UI
             {
                 DiagramDataVariants.Add(GetEnumDescription(enumItem));
             }
-
-            //chartData.Add("Audi", 12);
-            //chartData.Add("Skoda", 7);
-            //chartData.Add("WV", 19);
-            //chartData.Add("Mazda", 10);
         }
 
         public static string GetEnumDescription(Enum value)

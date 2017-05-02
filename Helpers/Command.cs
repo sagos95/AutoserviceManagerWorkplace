@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
@@ -17,11 +18,19 @@ namespace AutoserviceManagerWorkplace.UI
         }
 
         public bool CanExecute(object parameter)
-        {
-            return true;
+        {           
+            return canExecuteMethod(parameter);
         }
 
         public event EventHandler CanExecuteChanged;
+        public void OnCanExecuteChanged(object o, EventArgs e)
+        {
+            if (CanExecuteChanged != null)
+            {
+                EventHandler a = CanExecuteChanged;
+                a(null, new EventArgs());
+            }
+        }
 
         public void Execute(object parameter)
         {

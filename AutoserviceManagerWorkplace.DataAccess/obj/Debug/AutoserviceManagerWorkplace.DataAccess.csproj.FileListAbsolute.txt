@@ -32,4 +32,3 @@ H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkpl
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\obj\Debug\AutoserviceManagerWorkplace.DataAccess.Migrations.removeCarOwnersfromOrderList2.resources
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\obj\Debug\AutoserviceManagerWorkplace.DataAccess.Migrations.removeCarOwnersfromOrderList3.resources
 H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\obj\Debug\AutoserviceManagerWorkplace.DataAccess.Migrations.removeCarOwnersfromOrderList4.resources
-H:\DiskD\My files\MVS13\DSR\AutoserviceManagerWorkplace\AutoserviceManagerWorkplace.DataAccess\bin\Debug\AMWDataBase.mdf
