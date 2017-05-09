@@ -3,24 +3,101 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:AutoserviceManagerWorkplace.UI"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        Title="АРМ менеджера автосервиса" Height="516.209" Width="1077"
+        Title="АРМ менеджера автосервиса" Height="516" Width="1077"
+        MinWidth="1077"
+        MinHeight="516"
         >
     <Window.Resources>
         <local:MainViewModel x:Key="viewModel"/>
         <local:RadioButtonConverter x:Key="RadioButtonConverter"/>
         <local:BooleanToVisibilityConverter x:Key="VisibilityConverter"/>
-        <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="RadioButton" x:Key="RadioHeader">
-            <Setter Property="Background">
+        <Style BasedOn="{StaticResource {x:Type RadioButton}}" TargetType="RadioButton">
+            <Setter Property="Template">
                 <Setter.Value>
-                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                        <LinearGradientBrush.GradientStops>
-                            <GradientStop Offset="0.0" Color="#001100" />
-                            <GradientStop Offset="0.5" Color="#FF1100" />
-                            <GradientStop Offset="1.0" Color="#FFFFFF" />
-                        </LinearGradientBrush.GradientStops>
-                    </LinearGradientBrush>
+                    <ControlTemplate TargetType="{x:Type RadioButton}">
+                        <Grid VerticalAlignment="Stretch" Margin="0">                            
+                            <Grid Margin="0" Background="White">
+                                <Ellipse HorizontalAlignment="Left" Stroke="#FFA2A2A2" StrokeThickness="1" Width="12" Height="12" Margin="0">
+                                    <Ellipse.Fill>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Offset="0.0" Color="WhiteSmoke" />
+                                                <GradientStop Offset="0.402" Color="WhiteSmoke" />
+                                                <GradientStop Offset="1.0" Color="#FFD1D1D1" />
+                                                <GradientStop Color="#FFECECEC" Offset="0.462"/>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  TextBlock.Foreground="#000000" Margin="17,0,0,0">
+                                </ContentPresenter>
+                            </Grid>
+                            <Grid Name="MouseOverMark" Visibility="Hidden">
+                                <Ellipse HorizontalAlignment="Left" Stroke="#FF96C3EE" StrokeThickness="1" Width="12" Height="12" Margin="0">
+                                    <Ellipse.Fill>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Offset="0.0" Color="AliceBlue" />
+                                                <GradientStop Offset="0.385" Color="AliceBlue" />
+                                                <GradientStop Offset="1.0" Color="#FFDBEFFF" />
+                                                <GradientStop Color="#FFDBEFFF" Offset="0.436"/>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  TextBlock.Foreground="#89C3FF" Margin="17,0,0,0">
+                                </ContentPresenter>
+                            </Grid>
+                            <Grid Name="TickMark" Visibility="Hidden">
+                                <Ellipse HorizontalAlignment="Left" Stroke="#FF96C3EE" StrokeThickness="1" Width="12" Height="12" Margin="0">
+                                    <Ellipse.Fill>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <LinearGradientBrush.GradientStops>
+                                                <GradientStop Offset="0.0" Color="AliceBlue" />
+                                                <GradientStop Offset="0.385" Color="AliceBlue" />
+                                                <GradientStop Offset="1.0" Color="#FFDBEFFF" />
+                                                <GradientStop Color="#FFDBEFFF" Offset="0.436"/>
+                                            </LinearGradientBrush.GradientStops>
+                                        </LinearGradientBrush>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <Ellipse HorizontalAlignment="Left" Stroke="{x:Null}" Width="8" Height="8" Margin="2,0,0,0">
+                                    <Ellipse.Fill>
+                                        <RadialGradientBrush>
+                                            <GradientStop Color="#FFD6EEFF"/>
+                                            <GradientStop Color="#FF5A98BB" Offset="1"/>
+                                        </RadialGradientBrush>
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                                <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  TextBlock.Foreground="#5993CF" Margin="17,0,0,0">
+                                </ContentPresenter>
+                            </Grid>                            
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasContent" Value="true">
+                                <Setter Property="Padding" Value="4,0,0,0"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="TickMark" Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="MouseOverMark" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+        <Style BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="RadioButton" x:Key="RadioHeader">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type RadioButton}">
@@ -37,7 +114,7 @@
                                     </LinearGradientBrush>
                                 </Rectangle.Fill>
                             </Rectangle>
-                            <Rectangle Height="2" VerticalAlignment="Bottom" Fill="#FF3977E4"/>
+                            <Rectangle Height="2" VerticalAlignment="Bottom" Fill="#FF96C3EE"/>
                             <Grid Name="MouseOverMark" Visibility="Hidden">
                                 <Path HorizontalAlignment="Right" VerticalAlignment="Top" Stroke="#FF3977E4"
                                       StrokeThickness="1" Stretch="Fill">
@@ -69,9 +146,8 @@
                                 </Path>
                             </Grid>
                             <Grid Name="TickMark" Visibility="Hidden">
-
-                                <Path HorizontalAlignment="Right" VerticalAlignment="Top" Stroke="#FF3977E4"
-                                      StrokeThickness="1" Stretch="Fill">
+                                <Path HorizontalAlignment="Right" VerticalAlignment="Top" Stroke="#FF96C3EE"
+                                      StrokeThickness="2" Stretch="Fill">
                                     <Path.Data>
                                         <PathGeometry>
                                             <PathGeometry.Figures>
@@ -131,8 +207,14 @@
             </Setter>
         </Style>
     </Window.Resources>
-    <DockPanel Margin="0">
-        <Grid x:Name="OperationTypeButtons" DockPanel.Dock="Top" Height="57" VerticalAlignment="Top">
+    <Grid Margin="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid x:Name="OperationTypeButtons" Grid.Row="0" Height="57" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -151,8 +233,8 @@
                          Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OperationType.Search}}"
                          />
         </Grid>
-        <Grid x:Name="OperationParameters" DockPanel.Dock="Top" Margin="10,0,0,0" VerticalAlignment="Top"
-              Visibility="Visible">
+        <Grid x:Name="OperationParameters" Grid.Row="1" Margin="10,0,0,0" VerticalAlignment="Top"
+              Visibility="Visible" Height="44">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="743*"/>
                 <ColumnDefinition Width="316*"/>
@@ -166,12 +248,12 @@
                     <ColumnDefinition Width="196*"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <RadioButton Margin="3,3,3,3" Grid.Row="0" Grid.Column="0" GroupName="ColumnParameter" Content="По ID заказа"
-                    IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
-                    Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.OrderId}}"/>
+                    <RadioButton Margin="3,3,3,3" Grid.Row="0" Grid.Column="0" GroupName="ColumnParameter" Content="По ID заказа"                     
+                     IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
+                     Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.OrderId}}"/>
                     <RadioButton Margin="3,3,3,3" Content="По марке" Grid.Row="0" GroupName="ColumnParameter"
-                   IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
-                    Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.Brand}}"/>
+                     IsChecked="{Binding Source={StaticResource viewModel}, Path=CurrentOrderProperty,
+                     Converter={StaticResource RadioButtonConverter}, ConverterParameter={x:Static local:OrderProperty.Brand}}"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <RadioButton Margin="3,3,3,3" Content="По модели" Grid.Row="0" GroupName="ColumnParameter"
@@ -241,25 +323,22 @@
                 />
             </StackPanel>
         </Grid>
-        <StackPanel DockPanel.Dock="Top" Orientation="Vertical" VerticalAlignment="Top">
-            <DataGrid x:Name="dataGrid" Margin="10" AutoGenerateColumns="False" DockPanel.Dock="Top" Height="314"
-                      ItemsSource="{Binding Source={StaticResource viewModel}, Path=VisibleOrderCollection}" IsReadOnly="True" 
-            >
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Номер заказа" Binding="{Binding OrderId}" Width="2.2*"/>
-                    <DataGridTextColumn Header="Наименование работ" Binding="{Binding OrderContent}" Width="5*"/>
-                    <DataGridTextColumn Header="Стоимость" Binding="{Binding Price}" Width="1.7*"/>
-                    <DataGridTextColumn Header="Дата начала работ" Binding="{Binding StartDateOfWorkWithDots}" Width="2.8*"/>
-                    <DataGridTextColumn Header="Дата конца работ" Binding="{Binding EndDateOfWorkWithDots}" Width="2.8*"/>
-                    <DataGridTextColumn Header="Марка авто" Binding="{Binding Brand}" Width="2*"/>
-                    <DataGridTextColumn Header="Модель авто" Binding="{Binding Model}" Width="2*"/>
-                    <DataGridTextColumn Header="Год авто" Binding="{Binding Year}" Width="1.4*"/>
-                    <DataGridTextColumn Header="Мощность двигателя" Binding="{Binding EnginePower}" Width="3*"/>
-                    <DataGridTextColumn Header="Трансмиссия" Binding="{Binding AutomaticTransmission}" Width="2*"/>
-                </DataGrid.Columns>
-            </DataGrid>           
-        </StackPanel>
-        <Grid DockPanel.Dock="Bottom" VerticalAlignment="Bottom" Margin="0,10,0,10">
+        <DataGrid x:Name="dataGrid" Margin="10" Grid.Row="2"  AutoGenerateColumns="False"
+                      ItemsSource="{Binding Source={StaticResource viewModel}, Path=VisibleOrderCollection}" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Номер заказа" Binding="{Binding OrderId}" Width="2.2*"/>
+                <DataGridTextColumn Header="Наименование работ" Binding="{Binding OrderContent}" Width="5*"/>
+                <DataGridTextColumn Header="Стоимость" Binding="{Binding Price}" Width="1.7*"/>
+                <DataGridTextColumn Header="Дата начала работ" Binding="{Binding StartDateOfWorkWithDots}" Width="2.8*"/>
+                <DataGridTextColumn Header="Дата конца работ" Binding="{Binding EndDateOfWorkWithDots}" Width="2.8*"/>
+                <DataGridTextColumn Header="Марка авто" Binding="{Binding Brand}" Width="2*"/>
+                <DataGridTextColumn Header="Модель авто" Binding="{Binding Model}" Width="2*"/>
+                <DataGridTextColumn Header="Год авто" Binding="{Binding Year}" Width="1.4*"/>
+                <DataGridTextColumn Header="Мощность двигателя" Binding="{Binding EnginePower}" Width="3*"/>
+                <DataGridTextColumn Header="Трансмиссия" Binding="{Binding AutomaticTransmission}" Width="2*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Row="3" VerticalAlignment="Bottom" Margin="0,0,0,10" Height="26">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="1*"/>
@@ -286,5 +365,5 @@
             <Button Content="Статистика" Grid.Column="2" Margin="0" Width="120px"
         		Command="{Binding ShowDiagramView, Source={StaticResource viewModel}}"/>
         </Grid>
-    </DockPanel>
+    </Grid>
 </Window>

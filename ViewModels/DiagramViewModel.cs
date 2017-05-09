@@ -30,16 +30,8 @@ namespace AutoserviceManagerWorkplace.UI
         OrderPerPriceGroup
     }
 
-    class DiagramViewModel : INotifyPropertyChanged
+    public class DiagramViewModel : INotifyPropertyChanged
     {
-        protected static string PriceGroup(int price)
-        {
-            if (price <= 1000) return "1. до 1 000р.";
-            if (price > 1000 && price <= 5000) return "2. от 1 000 до 5 000р.";
-            if (price > 5000 && price <= 10000) return "2. от 5 000 до 10 000р.";
-            return "3. более 10 000р.";
-        }
-
         private ObservableCollection<string> diagramDataVariants = new ObservableCollection<string>();
         public ObservableCollection<string> DiagramDataVariants
         {
@@ -50,26 +42,26 @@ namespace AutoserviceManagerWorkplace.UI
                 OnPropertyChanged("DiagramDataVariants");
             }
         }
-        private DiagramDataType currentDiagramDataType = DiagramDataType.OrderPerBrand;
+        private DiagramDataType currentDiagramDataType;
         public DiagramDataType CurrentDiagramDataType
         {
             get { return currentDiagramDataType; }
             set
             {
                 currentDiagramDataType = value;
-                var orderData = MainViewModel.GetOrdersCollection();
+                var currentOrderData = OrderCollection;
                 switch (value)
                 {
                     case DiagramDataType.OrderPerBrand:                       
-                        ChartData = orderData.GroupBy(row => row.Brand).ToDictionary(item => item.Key, item => item.Count());                        
+                        ChartData = currentOrderData.GroupBy(row => row.Brand).ToDictionary(item => item.Key, item => item.Count());                        
                         break;
                     case DiagramDataType.OrderPerMonth:
-                        orderData = new ObservableCollection<UIOrderRowModel>(orderData.Where(order => order.StartDateOfWork.Year == DateTime.Now.Year));
-                        var query1 = orderData.GroupBy(row => row.StartDateOfWork.Month).OrderBy(group => group.Key);
+                        currentOrderData = new ObservableCollection<UIOrderRowModel>(currentOrderData.Where(order => order.StartDateOfWork.Year == DateTime.Now.Year));
+                        var query1 = currentOrderData.GroupBy(row => row.StartDateOfWork.Month).OrderBy(group => group.Key);
                         ChartData = query1.ToDictionary(item => CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(item.Key), item => item.Count());  
                         break;
                     case DiagramDataType.OrderPerPriceGroup:
-                        var query2 = orderData.GroupBy(row => PriceGroup(row.Price).ToString()).OrderBy(group => group.Key);
+                        var query2 = currentOrderData.GroupBy(row => PriceGroup(row.Price).ToString()).OrderBy(group => group.Key);
                         ChartData = query2.ToDictionary(item => item.Key, item => item.Count());
                         break;     
                 }
@@ -96,6 +88,27 @@ namespace AutoserviceManagerWorkplace.UI
                 OnPropertyChanged("CurrentDiagramType");
             }
         }
+        private ObservableCollection<UIOrderRowModel> orderCollection = null;
+        public ObservableCollection<UIOrderRowModel> OrderCollection
+        {
+            get
+            {
+                return orderCollection;
+            }
+            set
+            {
+                orderCollection = value;
+                foreach (Enum enumItem in Enum.GetValues(typeof(DiagramType)))
+                {
+                    AviableDiagramTypes.Add(GetEnumDescription(enumItem));
+                }
+                foreach (Enum enumItem in Enum.GetValues(typeof(DiagramDataType)))
+                {
+                    DiagramDataVariants.Add(GetEnumDescription(enumItem));
+                }
+                CurrentDiagramDataType = DiagramDataType.OrderPerBrand;
+            }
+        }
 
         private Dictionary<string, int> chartData = new Dictionary<string, int>();
         public Dictionary<string, int> ChartData
@@ -105,19 +118,6 @@ namespace AutoserviceManagerWorkplace.UI
             {
                 chartData = value;
                 OnPropertyChanged("ChartData");
-            }
-        }
-
-        public DiagramViewModel()
-        {
-            foreach (Enum enumItem in Enum.GetValues(typeof(DiagramType)))
-            {
-                AviableDiagramTypes.Add(GetEnumDescription(enumItem));
-            }
-
-            foreach (Enum enumItem in Enum.GetValues(typeof(DiagramDataType)))
-            {
-                DiagramDataVariants.Add(GetEnumDescription(enumItem));
             }
         }
 
@@ -145,6 +145,13 @@ namespace AutoserviceManagerWorkplace.UI
                 }
             }
             return null;
+        }
+        private string PriceGroup(int price)
+        {
+            if (price <= 1000) return "1. до 1 000р.";
+            if (price > 1000 && price <= 5000) return "2. от 1 000 до 5 000р.";
+            if (price > 5000 && price <= 10000) return "2. от 5 000 до 10 000р.";
+            return "3. более 10 000р.";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

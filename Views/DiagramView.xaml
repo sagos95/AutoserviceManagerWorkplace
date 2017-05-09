@@ -4,9 +4,11 @@
         xmlns:charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         xmlns:local="clr-namespace:AutoserviceManagerWorkplace.UI"
         xmlns:res="clr-namespace:AutoserviceManagerWorkplace.UI.Properties"
-        Title="Статистика заказов" Height="455" Width="677" WindowStyle="ToolWindow">
+        Title="Статистика заказов" Height="455" Width="677" WindowStyle="ToolWindow"
+        MinWidth="677"
+        MinHeight="455"
+        >
     <Window.Resources>
-        <local:DiagramViewModel x:Key="diagramViewModel"/>
         <local:BooleanToVisibilityConverter x:Key="visibilityConverter"/>
         <local:StringToEnumConverter x:Key="stringToEnumTypeConverter"/>
     </Window.Resources>
@@ -16,25 +18,25 @@
             <RowDefinition Height="379*"></RowDefinition>
         </Grid.RowDefinitions>
         <ComboBox x:Name="diagramDataCombobox" Grid.Row="0" Margin="10,10,0,0"
-                  ItemsSource="{Binding Source={StaticResource diagramViewModel}, Path=DiagramDataVariants}"
-                  SelectedItem="{Binding Source={StaticResource diagramViewModel}, Path=CurrentDiagramDataType,
+                  ItemsSource="{Binding Path=DiagramDataVariants}"
+                  SelectedItem="{Binding Path=CurrentDiagramDataType,
                   Converter={StaticResource stringToEnumTypeConverter}, ConverterParameter={x:Type local:DiagramDataType}}"
                   SelectedIndex="0" HorizontalAlignment="Left" Width="274" Height="22" VerticalAlignment="Top"
                   />
         <Label Content="Тип диаграммы:" Grid.Row="0" HorizontalAlignment="Left" Margin="289,10,0,10" Width="99"/>
         <ComboBox x:Name="diargamTypeBox" Grid.Row="0" Margin="393,10,10,0"
-                  ItemsSource="{Binding Source={StaticResource diagramViewModel}, Path=AviableDiagramTypes}"
-                  SelectedItem="{Binding Source={StaticResource diagramViewModel}, Path=CurrentDiagramType,
+                  ItemsSource="{Binding Path=AviableDiagramTypes}"
+                  SelectedItem="{Binding Path=CurrentDiagramType,
                     Converter={StaticResource stringToEnumTypeConverter}, ConverterParameter={x:Type local:DiagramType}}"
                   SelectedIndex="0" Height="22" VerticalAlignment="Top"
                   />
         <Grid Grid.Row="1">
             <charting:Chart Name="LinesChart"
-                Visibility="{Binding Source={StaticResource diagramViewModel}, Path=CurrentDiagramType, Converter={StaticResource visibilityConverter},
+                Visibility="{Binding Path=CurrentDiagramType, Converter={StaticResource visibilityConverter},
                         ConverterParameter={x:Static local:DiagramType.Lines}}" >
                 <charting:AreaSeries
                     Title=""
-                    ItemsSource="{Binding Path=ChartData, Source={StaticResource diagramViewModel}}"
+                    ItemsSource="{Binding Path=ChartData}"
                     IndependentValuePath="Key"
                     DependentValuePath="Value">
                     <charting:AreaSeries.DataPointStyle>
@@ -52,18 +54,18 @@
                 </charting:AreaSeries>
             </charting:Chart>
             <charting:Chart Name="PieChart"
-                Visibility="{Binding Source={StaticResource diagramViewModel}, Path=CurrentDiagramType, Converter={StaticResource visibilityConverter},
+                Visibility="{Binding Path=CurrentDiagramType, Converter={StaticResource visibilityConverter},
                         ConverterParameter={x:Static local:DiagramType.Pie}}">
                 <charting:PieSeries
-                    ItemsSource="{Binding Path=ChartData, Source={StaticResource diagramViewModel}}"
+                    ItemsSource="{Binding Path=ChartData}"
                     IndependentValuePath="Key"
                     DependentValuePath="Value" Margin="0"/>
             </charting:Chart>
             <charting:Chart Name="ColumnChart"
-                Visibility="{Binding Source={StaticResource diagramViewModel}, Path=CurrentDiagramType, Converter={StaticResource visibilityConverter},
+                Visibility="{Binding Path=CurrentDiagramType, Converter={StaticResource visibilityConverter},
                         ConverterParameter={x:Static local:DiagramType.Column}}">
                 <charting:ColumnSeries Title=""
-                    ItemsSource="{Binding Path=ChartData, Source={StaticResource diagramViewModel}}"
+                    ItemsSource="{Binding Path=ChartData}"
                     IndependentValuePath="Key"
                     DependentValuePath="Value" Margin="0"/>
             </charting:Chart>

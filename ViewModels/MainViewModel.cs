@@ -66,7 +66,8 @@ namespace AutoserviceManagerWorkplace.UI
                     case OperationType.Search:
                         FindOrders();
                         break;
-                }                
+                }
+                CurrentPageNum = 1;
                 OnPropertyChanged("CurrentOrderProperty");
             }
         }
@@ -134,7 +135,7 @@ namespace AutoserviceManagerWorkplace.UI
                     Regex regex = new Regex("[^0-9]+");
                     if (!regex.IsMatch(sourceString))
                     {
-                        currentPageNum = sourceString.Equals("") ? 0 : System.Convert.ToInt32(sourceString);
+                        currentPageNum = sourceString.Equals("") ? 1 : System.Convert.ToInt32(sourceString);
                     }
                 }
                 NextPage.OnCanExecuteChanged(null, null);
@@ -143,7 +144,7 @@ namespace AutoserviceManagerWorkplace.UI
                 OnPropertyChanged("VisibleOrderCollection");
             }
         }
-        private int ordersPageCount = orderCollection.Count;
+        private int ordersPageCount;
         public int OrdersPagesCount
         {
             get { return ordersPageCount; }
@@ -184,7 +185,7 @@ namespace AutoserviceManagerWorkplace.UI
             }
         }
 
-        private static ObservableCollection<UIOrderRowModel> orderCollection = GetOrdersCollection();
+        private ObservableCollection<UIOrderRowModel> orderCollection;
         public ObservableCollection<UIOrderRowModel> OrderCollection
         {
             get { return orderCollection; }
@@ -222,9 +223,10 @@ namespace AutoserviceManagerWorkplace.UI
             ShowDiagramView = new Command(showDiagramView, x => true);
             NextPage = new Command(nextPage, canGoToNextPage);
             PreviousPage = new Command(previousPage, canGoToPreviousPage);
+            orderCollection = GetOrdersCollection();
         }
 
-        public static ObservableCollection<UIOrderRowModel> GetOrdersCollection()
+        private ObservableCollection<UIOrderRowModel> GetOrdersCollection()
         {
             var result = new ObservableCollection<UIOrderRowModel>();
             using (DataBaseContext context = new DataBaseContext())
@@ -282,14 +284,21 @@ namespace AutoserviceManagerWorkplace.UI
             }
             else
             {
-                var columnPropertyInfo = typeof(UIOrderRowModel).GetProperty(correctedPropertyName);
+                var columnPropertyInfo = typeof(UIOrderRowModel).GetProperty(CurrentOrderProperty.ToString());
                 orderCollection = GetOrdersCollection();
+                var filteringSortedRawValues = new List<object>();
                 foreach (var order in orderCollection)
                 {
                     if (columnPropertyInfo.GetValue(order, null) != null)
                     {
-                        FilterValues.Add(columnPropertyInfo.GetValue(order, null).ToString());
+                        filteringSortedRawValues.Add(columnPropertyInfo.GetValue(order, null));
                     }
+                }
+                filteringSortedRawValues.Sort();
+                foreach (var value in filteringSortedRawValues)
+                {
+                    string addingItem = value is DateTime ? ((DateTime)value).ToString("dd MMMM yyyy") : value.ToString();
+                    FilterValues.Add(addingItem.ToString());
                 }
                 stopRefreshingFilterListBox = false;
                 FilterValues = new ObservableCollection<string>(FilterValues.GroupBy(x => x).Select(y => y.First()));
@@ -303,19 +312,22 @@ namespace AutoserviceManagerWorkplace.UI
             var filteringColumn = typeof(UIOrderRowModel).GetProperty(UIOrderRowModel.ConvertToUIPropertyName(CurrentOrderProperty));
             OrderCollection = new ObservableCollection<UIOrderRowModel>(
                     OrderCollection.Where(order => filteringColumn.GetValue(order, null).ToString() == SelectedFilterValue));
+            CurrentPageNum = 1;
         }
         private void FindOrders()
         {
             OrderCollection = GetOrdersCollection();
             var findingColumn = typeof(UIOrderRowModel).GetProperty(UIOrderRowModel.ConvertToUIPropertyName(CurrentOrderProperty));
             OrderCollection = new ObservableCollection<UIOrderRowModel>(
-                   OrderCollection.Where(order => findingColumn.GetValue(order, null).ToString().StartsWith(SearchValue)));
+                   OrderCollection.Where(order => findingColumn.GetValue(order, null).ToString().StartsWith(SearchValue, StringComparison.CurrentCultureIgnoreCase)));
+            CurrentPageNum = 1;
         }
 
         private void showDiagramView(object obj)
         {
-            var newView = new DiagramView();
-            newView.Show();
+            var diagramView = new DiagramView();
+            ((DiagramViewModel)(diagramView.DataContext)).OrderCollection = orderCollection;
+            diagramView.Show();
         }
         private void nextPage(object obj)
         {            
